@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Verbo 'Aller' em Francês</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Dark Space Blue with Gradients -->
+    <!-- Application Structure Plan: A single-page vertical lesson. It starts with a dynamic conjugation table for quick reference. The core "uses" of the verb are organized into a modern, interactive tabbed interface to prevent content overload and improve navigation. This allows users to focus on one concept at a time without a long scroll. The lesson concludes with a simple, interactive quiz to actively test and reinforce learning. This structure transforms a linear report into a multi-faceted, engaging learning tool by segmenting information and adding practical interactions, prioritizing user understanding and exploration over a static, mirrored layout. -->
+    <!-- Visualization & Content Choices: Conjugation Table (HTML Table + JS for interactive pronoun coloring) -> Goal: Organize/Inform -> Justification: Provides a clear, color-coded reference that's more engaging than a simple list. Tabbed Content for Uses (HTML/JS show/hide logic) -> Goal: Organize/Inform -> Justification: Breaks down complex information into digestible, non-linear sections, improving usability. Interactive Quiz (HTML/JS) -> Goal: Engage/Test -> Justification: Facilitates active learning and immediate feedback, which is crucial for language acquisition. NO CHARTS: This lesson does not contain quantitative data that would benefit from a chart visualization; the chosen presentation methods (tables, lists, and interactive text) are the most effective for the content. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A192F;
+            color: #E2E8F0;
+            line-height: 1.6;
+        }
+        .gradient-text-title {
+            background: linear-gradient(90deg, #FF3300, #FFFFCC, #00CCCC, #FF00FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-text-1 {
+            background: linear-gradient(90deg, #FFFFCC, #00CCCC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .lesson-card {
+            background-color: #112240;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .tab-btn.active {
+            background-color: #00CCCC;
+            color: #0A192F;
+            font-weight: bold;
+        }
+        .tab-btn:not(.active) {
+            background-color: #1A202C;
+            color: #A0AEC0;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .conjugation-table tr {
+            transition: background-color 0.2s ease;
+        }
+        .quiz-option {
+            background-color: #4A5568;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        .quiz-option:hover {
+            transform: translateY(-2px);
+            background-color: #718096;
+        }
+        .quiz-option.correct {
+            background-color: #10B981;
+        }
+        .quiz-option.incorrect {
+            background-color: #EF4444;
+        }
+        .quiz-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-next {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background-color: #FF00FF;
+            color: white;
+        }
+        .pronoun-je { color: #87CEFA; }
+        .pronoun-tu { color: #7FFFD4; }
+        .pronoun-il { color: #FFD700; }
+        .pronoun-elle { color: #FF6347; }
+        .pronoun-on { color: #FFA07A; }
+        .pronoun-nous { color: #DA70D6; }
+        .pronoun-vous { color: #40E0D0; }
+        .pronoun-ils { color: #ADFF2F; }
+        .pronoun-elles { color: #FFC0CB; }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-4xl mx-auto space-y-12">
+        <header class="text-center mb-10">
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">
+                <span class="gradient-text-title">O Verbo 'Aller' em Francês</span>
+            </h1>
+            <p class="mt-4 text-lg text-slate-400">
+                Um dos verbos mais importantes e irregulares do francês. Vamos dominar todos os seus usos!
+            </p>
+        </header>
+
+        <section class="lesson-card space-y-6">
+            <h2 class="text-3xl font-bold"><span class="gradient-text-1">1. Conjugação no Presente</span></h2>
+            <p class="text-slate-300">
+                O verbo **aller** é muito irregular. Sua conjugação deve ser memorizada para dominar a língua francesa.
+            </p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left bg-[#1A202C] rounded-lg">
+                    <thead>
+                        <tr class="border-b border-slate-700">
+                            <th class="p-4">Pronome</th>
+                            <th class="p-4">Conjugação</th>
+                            <th class="p-4">Tradução</th>
+                            <th class="p-4">Pronúncia (som aproximado)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-je">Je</td>
+                            <td class="p-4">vais</td>
+                            <td class="p-4">Eu vou</td>
+                            <td class="p-4">Jê vê</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-tu">Tu</td>
+                            <td class="p-4">vas</td>
+                            <td class="p-4">Tu vais</td>
+                            <td class="p-4">Tú vá</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-il">Il</td>
+                            <td class="p-4">va</td>
+                            <td class="p-4">Ele vai</td>
+                            <td class="p-4">Il vá</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-elle">Elle</td>
+                            <td class="p-4">va</td>
+                            <td class="p-4">Ela vai</td>
+                            <td class="p-4">Él vá</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-on">On</td>
+                            <td class="p-4">va</td>
+                            <td class="p-4">A gente vai</td>
+                            <td class="p-4">Ôn vá</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-nous">Nous</td>
+                            <td class="p-4">allons</td>
+                            <td class="p-4">Nós vamos</td>
+                            <td class="p-4">Núz alôn</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-vous">Vous</td>
+                            <td class="p-4">allez</td>
+                            <td class="p-4">Vós ides / Vocês vão</td>
+                            <td class="p-4">Vúz alé</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-ils">Ils</td>
+                            <td class="p-4">vont</td>
+                            <td class="p-4">Eles vão</td>
+                            <td class="p-4">Ils vônt</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700">
+                            <td class="p-4 font-bold pronoun-elles">Elles</td>
+                            <td class="p-4">vont</td>
+                            <td class="p-4">Elas vão</td>
+                            <td class="p-4">Élz vônt</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <h2 class="text-3xl font-bold mt-12"><span class="gradient-text-1">2. Os Usos do 'Aller'</span></h2>
+        
+        <section class="lesson-card space-y-6">
+            <p class="text-slate-300">
+                O verbo **aller** possui cinco usos principais, essenciais para a comunicação diária. Explore cada um deles abaixo para ver exemplos e aprender a usá-los corretamente.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="tab-btn active" data-tab="movimento">Movimento Físico 🚶</button>
+                <button class="tab-btn" data-tab="saude">Saúde e Bem-estar 👋</button>
+                <button class="tab-btn" data-tab="futuro">Futuro Próximo ⏩</button>
+                <button class="tab-btn" data-tab="expressoes">Expressões Idiomáticas 🗣️</button>
+                <button class="tab-btn" data-tab="combinacao">Combinação e Adequação 👕</button>
+            </div>
+            <div id="tab-container">
+                <div id="movimento" class="tab-content active space-y-4">
+                    <p class="text-slate-300">
+                        O uso mais direto: indicar movimento de um lugar para outro. Ele é usado para expressar o ato de ir ou se mover em direção a um destino específico.
+                    </p>
+                    <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+                        <li><em>Je <strong>vais</strong> à la maison.</em> (Eu vou para casa.) - <span class="text-slate-400 italic">(Jê vêz à la mézon)</span></li>
+                        <li><em>Ils <strong>vont</strong> à l'école.</em> (Eles vão para a escola.) - <span class="text-slate-400 italic">(Ils vônt à l'écol)</span></li>
+                        <li><em>Vous <strong>allez</strong> au supermarché ?</em> (Você vai ao supermarcado?) - <span class="text-slate-400 italic">(Vúz alé ou supermarché)</span></li>
+                        <li><em>Nous <strong>allons</strong> à la gare.</em> (Nós vamos para a estação.) - <span class="text-slate-400 italic">(Núz alônz à la gar)</span></li>
+                        <li><em>Il <strong>va</strong> au cinéma.</em> (Ele vai ao cinema.) - <span class="text-slate-400 italic">(Il vá ou cinemá)</span></li>
+                    </ul>
+                </div>
+                <div id="saude" class="tab-content space-y-4">
+                    <p class="text-slate-300">
+                        Ao contrário do português que usa "estar", o francês usa **aller** para perguntar e descrever o estado de saúde ou bem-estar de alguém.
+                    </p>
+                    <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+                        <li><em>Comment <strong>ça va</strong> ?</em> (Como vai?) - <span class="text-slate-400 italic">(Comâ sá vá)</span></li>
+                        <li><em><strong>Ça va</strong> bien, merci.</em> (Vai tudo bem, obrigado.) - <span class="text-slate-400 italic">(Sá vá biên, mercí)</span></li>
+                        <li><em>Je <strong>vais</strong> bien.</em> (Eu estou bem.) - <span class="text-slate-400 italic">(Jê vê biên)</span></li>
+                        <li><em>Je ne <strong>vais</strong> pas très bien.</em> (Eu não estou muito bem.) - <span class="text-slate-400 italic">(Jê nê vê pá trê biên)</span></li>
+                        <li><em>Comment <strong>vas-tu</strong> ?</em> (Como vais tu?) - <span class="text-slate-400 italic">(Comâ vá tú)</span></li>
+                    </ul>
+                </div>
+                <div id="futuro" class="tab-content space-y-4">
+                    <p class="text-slate-300">
+                        Este é um dos usos mais importantes e fáceis de dominar, pois ele é idêntico à nossa construção em português: **verbo 'ir' no presente + verbo no infinitivo**.
+                    </p>
+                     <div class="bg-slate-800 p-4 rounded-lg"><strong>Estrutura:</strong> `aller` conjugado + verbo no infinitivo</div>
+                    <div class="space-y-4 mt-4 text-slate-300">
+                        <div>
+                            <p class="font-bold pronoun-je">Je (Eu)</p>
+                            <ul class="list-disc list-inside pl-4">
+                                <li><em>Je <strong>vais manger</strong> une pomme.</em> (Eu vou comer uma maçã.) - <span class="text-slate-400 italic">(Jê vê manjê un póm)</span></li>
+                                <li><em>Je <strong>vais dormir</strong> tard ce soir.</em> (Eu vou dormir tarde esta noite.) - <span class="text-slate-400 italic">(Jê vê dormir tar cê suár)</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="font-bold pronoun-tu">Tu (Tu)</p>
+                            <ul class="list-disc list-inside pl-4">
+                                <li><em>Tu <strong>vas acheter</strong> des chaussures?</em> (Tu vais comprar sapatos?) - <span class="text-slate-400 italic">(Tú vá axetê dê xossur)</span></li>
+                                <li><em>Tu <strong>vas parler</strong> avec lui demain.</em> (Tu vais falar com ele amanhã.) - <span class="text-slate-400 italic">(Tú vá parlê avék lui demãn)</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="font-bold pronoun-il">Il / Elle / On (Ele / Ela / A gente)</p>
+                             <ul class="list-disc list-inside pl-4">
+                                <li><em>Il <strong>va pleuvoir</strong>.</em> (Vai chover.) - <span class="text-slate-400 italic">(Il vá plúvoar)</span></li>
+                                <li><em>Elle <strong>va écouter</strong> de la musique.</em> (Ela vai ouvir música.) - <span class="text-slate-400 italic">(Él vá ecutê de la muzík)</span></li>
+                                <li><em>On <strong>va aller</strong> au cinéma.</em> (A gente vai ao cinema.) - <span class="text-slate-400 italic">(Ôn vá alê ô cinemá)</span></li>
+                            </ul>
+                        </div>
+                         <div>
+                            <p class="font-bold pronoun-nous">Nous (Nós)</p>
+                            <ul class="list-disc list-inside pl-4">
+                                <li><em>Nous <strong>allons regarder</strong> un film.</em> (Nós vamos assistir a um filme.) - <span class="text-slate-400 italic">(Núz alôn reguardê un film)</span></li>
+                                <li><em>Nous <strong>allons visiter</strong> un musée.</em> (Nós vamos visitar um museu.) - <span class="text-slate-400 italic">(Núz alôn vizitê an muzê)</span></li>
+                            </ul>
+                        </div>
+                         <div>
+                            <p class="font-bold pronoun-vous">Vous (Vós / Vocês)</p>
+                            <ul class="list-disc list-inside pl-4">
+                                <li><em>Vous <strong>allez travailler</strong> ensemble.</em> (Vocês vão trabalhar juntos.) - <span class="text-slate-400 italic">(Vúz alé travaiê ansãmbl)</span></li>
+                                <li><em>Vous <strong>allez faire</strong> du sport.</em> (Vocês vão fazer esporte.) - <span class="text-slate-400 italic">(Vúz alé fér du spór)</span></li>
+                            </ul>
+                        </div>
+                         <div>
+                            <p class="font-bold pronoun-ils">Ils / Elles (Eles / Elas)</p>
+                            <ul class="list-disc list-inside pl-4">
+                                <li><em>Ils <strong>vont partir</strong> en vacances.</em> (Eles vão partir de férias.) - <span class="text-slate-400 italic">(Ils vônt partír en vacánss)</span></li>
+                                <li><em>Elles <strong>vont prendre</strong> le bus.</em> (Elas vão pegar o ônibus.) - <span class="text-slate-400 italic">(Élz vônt prãndr lê bus)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="expressoes" class="tab-content space-y-4">
+                    <p class="text-slate-300">
+                        O verbo **aller** está em muitas expressões comuns que não têm uma tradução literal, mas que são essenciais para soar como um falante nativo.
+                    </p>
+                    <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+                        <li><em><strong>Allez !</strong></em> (Força! / Vai!) - <span class="text-slate-400 italic">(Alé)</span> - Usado para encorajar alguém.</li>
+                        <li><em><strong>Allons-y !</strong></em> (Vamos!) - <span class="text-slate-400 italic">(Alôn-zí)</span></li>
+                        <li><em><strong>Vas-y !</strong></em> (Vai fundo! / Manda ver!) - <span class="text-slate-400 italic">(Vá-zí)</span></li>
+                        <li><em><strong>Allez-y !</strong></em> (Vai fundo! / Manda ver!) - <span class="text-slate-400 italic">(Alé-zí)</span></li>
+                        <li><em>Comment <strong>allez-vous</strong> ?</em> (Como vai o senhor/a senhora?) - <span class="text-slate-400 italic">(Comâ alé-vú)</span></li>
+                        <li><em><strong>Ça va</strong> aller.</em> (Vai ficar tudo bem.) - <span class="text-slate-400 italic">(Sá vá alé)</span></li>
+                        <li><em>Il s'en <strong>va</strong>.</em> (Ele vai embora.) - <span class="text-slate-400 italic">(Il s'ân vá)</span></li>
+                        <li><em><strong>Allez savoir !</strong></em> (Vá saber! / Quem sabe?) - <span class="text-slate-400 italic">(Alé zavuár)</span></li>
+                        <li><em>Ça <strong>va</strong> de soi.</em> (Isso é óbvio.) - <span class="text-slate-400 italic">(Sá vá de suá)</span></li>
+                        <li><em>Ça <strong>va</strong> sans dire.</em> (Isso é evidente.) - <span class="text-slate-400 italic">(Sá vá sân dir)</span></li>
+                    </ul>
+                </div>
+                <div id="combinacao" class="tab-content space-y-4">
+                    <p class="text-slate-300">
+                        Para dizer que algo combina, se harmoniza ou fica bem em alguém, o verbo **aller** é a escolha certa.
+                    </p>
+                    <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+                        <li><em>Cette robe <strong>va</strong> bien avec tes chaussures.</em> (Este vestido combina bem com os teus sapatos.) - <span class="text-slate-400 italic">(Sét robá vá biên avék tê chôssur)</span></li>
+                        <li><em>Ce pull te <strong>va</strong> très bien.</em> (Este suéter te cai muito bem.) - <span class="text-slate-400 italic">(Cê púll tê vá trê biên)</span></li>
+                        <li><em>Ces chaussures ne <strong>vont</strong> pas avec mon sac.</em> (Estes sapatos não combinam com a minha bolsa.) - <span class="text-slate-400 italic">(Cê chôssur ne vônt pâz avék môm sac)</span></li>
+                        <li><em>Ce plat <strong>va</strong> très bien com du vin blanc.</em> (Este prato combina muito bem com vinho branco.) - <span class="text-slate-400 italic">(Cê plá vá trê biên avék dû vin blân)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVO: FORMA NEGATIVA E IMPERATIVA -->
+        <h2 class="text-3xl font-bold mt-12"><span class="gradient-text-1">3. Formas Especiais: Negativo e Imperativo</span></h2>
+        
+        <section class="lesson-card space-y-6">
+            <h3 class="text-2xl font-semibold text-teal-300">Forma Negativa ❌</h3>
+            <p>
+                Para formar a negação em francês, usamos a estrutura `ne`...`pas`. O verbo conjugado **vai no meio** da negação.
+            </p>
+            <div class="bg-slate-800 p-4 rounded-lg"><strong>Estrutura:</strong> Pronome + `ne` + `aller` conjugado + `pas` + resto da frase</div>
+            <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300 mt-4">
+                <li><em>Je <strong>ne vais pas</strong> à la bibliothèque.</em> (Eu não vou à biblioteca.)</li>
+                <li><em>Nous <strong>n'allons pas</strong> au restaurant.</em> (Nós não vamos ao restaurante.) - Note que o `ne` vira `n'` antes de vogal.</li>
+                <li><em>Il <strong>ne va pas</strong> courir.</em> (Ele não vai correr.)</li>
+            </ul>
+        </section>
+
+        <section class="lesson-card space-y-6">
+            <h3 class="text-2xl font-semibold text-teal-300">Forma Imperativa (Comando) 📢</h3>
+            <p>
+                O imperativo é usado para dar ordens, conselhos ou fazer pedidos. Ele é conjugado apenas para `tu`, `nous` e `vous`, e **não** usamos o pronome.
+            </p>
+            <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+                <li>**Para `tu`:** `Va`</li>
+                <li>**Para `nous`:** `Allons`</li>
+                <li>**Para `vous`:** `Allez`</li>
+            </ul>
+            <p class="text-slate-300 mt-4">
+                Em frases com imperativo seguido de `y` ou `en`, a conjugação de `tu` volta a ter o `s` final: `vas-y` e `vas-en`.
+            </p>
+            <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300 mt-4">
+                <li><em><strong>Va</strong> faire tes devoirs!</em> (Vai fazer a tua lição de casa!) - <span class="text-slate-400 italic">(Vá fér tê devuár)</span></li>
+                <li><em><strong>Vas-y</strong>, je te soutiens!</em> (Vai fundo, eu te apoio!) - <span class="text-slate-400 italic">(Vá-zí, jê tê sutién)</span></li>
+                <li><em><strong>Va-t-en!</strong></em> (Vai-te embora!) - <span class="text-slate-400 italic">(Vá-tân)</span></li>
+                <li><em><strong>Allons</strong> à la plage!</em> (Vamos à praia!) - <span class="text-slate-400 italic">(Alônz à la plág)</span></li>
+                <li><em><strong>Allez</strong>-vous en!</em> (Vão embora!) - <span class="text-slate-400 italic">(Alé-vúz ân)</span></li>
+            </ul>
+        </section>
+        
+        <!-- SECTION 3: QUIZ -->
+        <section id="quiz-section" class="lesson-card space-y-6">
+            <h2 class="text-3xl font-bold"><span class="gradient-text-1">4. Teste seu Conhecimento! 🧐</span></h2>
+            <div id="quiz-container">
+                <p id="question-text" class="text-lg mb-4"></p>
+                <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <p id="feedback-text" class="mt-4 font-bold"></p>
+                <button id="next-btn" class="btn-next mt-4 hidden">Próxima Pergunta</button>
+            </div>
+            <div id="quiz-results" class="hidden">
+                 <p class="text-2xl font-bold text-center">Quiz finalizado!</p>
+                 <p id="score-text" class="text-xl text-center mt-2"></p>
+                 <button id="restart-btn" class="btn-next mx-auto block mt-4">Tentar Novamente</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const tabId = button.dataset.tab;
+                    tabContents.forEach(content => {
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        } else {
+                            content.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            const quizData = [
+                {
+                    question: "Como você diria 'Eu vou comer' em francês?",
+                    options: ["Je mange", "Je vais manger", "Je mangerai"],
+                    answer: "Je vais manger",
+                    explanation: "Correto! Usamos 'aller' + infinitivo para o futuro próximo."
+                },
+                {
+                    question: "Qual frase pergunta sobre a saúde de alguém de forma formal?",
+                    options: ["Ça va?", "Comment vas-tu?", "Comment allez-vous?"],
+                    answer: "Comment allez-vous?",
+                    explanation: "Perfeito! 'Comment allez-vous?' é a forma educada e formal."
+                },
+                {
+                    question: "A frase 'Cette chemise te va bien' significa:",
+                    options: ["Esta camisa é sua", "Esta camisa te cai bem", "Você vai com esta camisa"],
+                    answer: "Esta camisa te cai bem",
+                    explanation: "Exato! 'Aller' pode ser usado para dizer que algo combina ou cai bem."
+                },
+                {
+                    question: "Complete a frase: 'Nous ______ au parc.'",
+                    options: ["vont", "allez", "allons"],
+                    answer: "allons",
+                    explanation: "Isso mesmo! A conjugação para 'nous' é 'allons'."
+                },
+                {
+                    question: "O que 'Allons-y !' significa?",
+                    options: ["Nós vamos", "Vamos lá!", "Onde vamos?"],
+                    answer: "Vamos lá!",
+                    explanation: "Correto! É uma expressão idiomática para começar uma ação."
+                },
+                {
+                    question: "A frase 'Je ne vais pas très bien' está na forma:",
+                    options: ["Afirmativa", "Negativa", "Imperativa"],
+                    answer: "Negativa",
+                    explanation: "Correto! O 'ne... pas' indica a negação."
+                },
+                {
+                    question: "Qual conjugação seria usada para dar uma ordem a um grupo de pessoas?",
+                    options: ["Va!", "Allons!", "Allez!"],
+                    answer: "Allez!",
+                    explanation: "Perfeito! 'Allez!' é a forma imperativa para 'vous'."
+                }
+            ];
+
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const feedbackText = document.getElementById('feedback-text');
+            const nextBtn = document.getElementById('next-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            const quizContainer = document.getElementById('quiz-container');
+            const quizResults = document.getElementById('quiz-results');
+            const scoreText = document.getElementById('score-text');
+
+            function loadQuestion() {
+                feedbackText.textContent = '';
+                nextBtn.classList.add('hidden');
+                optionsContainer.innerHTML = '';
+
+                if (currentQuestionIndex >= quizData.length) {
+                    showResults();
+                    return;
+                }
+
+                const currentQuestion = quizData[currentQuestionIndex];
+                questionText.textContent = currentQuestion.question;
+
+                currentQuestion.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.classList.add('quiz-option');
+                    button.addEventListener('click', () => selectAnswer(button, currentQuestion));
+                    optionsContainer.appendChild(button);
+                });
+            }
+
+            function selectAnswer(selectedButton, question) {
+                const isCorrect = selectedButton.textContent === question.answer;
+
+                if (isCorrect) {
+                    selectedButton.classList.add('correct');
+                    feedbackText.textContent = question.explanation;
+                    feedbackText.style.color = '#10B981';
+                    score++;
+                } else {
+                    selectedButton.classList.add('incorrect');
+                    feedbackText.textContent = "Tente de novo! A resposta correta era: " + question.answer;
+                    feedbackText.style.color = '#EF4444';
+                    optionsContainer.querySelectorAll('.quiz-option').forEach(btn => {
+                        if (btn.textContent === question.answer) {
+                            btn.classList.add('correct');
+                        }
+                    });
+                }
+                optionsContainer.querySelectorAll('.quiz-option').forEach(btn => {
+                    btn.classList.add('disabled');
+                    btn.removeEventListener('click', selectAnswer);
+                });
+                nextBtn.classList.remove('hidden');
+            }
+            
+            function showResults() {
+                quizContainer.classList.add('hidden');
+                quizResults.classList.remove('hidden');
+                scoreText.textContent = `Você acertou ${score} de ${quizData.length} perguntas!`;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                currentQuestionIndex++;
+                loadQuestion();
+            });
+            
+            restartBtn.addEventListener('click', () => {
+                currentQuestionIndex = 0;
+                score = 0;
+                quizResults.classList.add('hidden');
+                quizContainer.classList.remove('hidden');
+                loadQuestion();
+            });
+
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
